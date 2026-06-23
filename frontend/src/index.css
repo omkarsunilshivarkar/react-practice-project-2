@@ -1,50 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 1.6;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: light;
+  color: #101828;              /* Dark Slate/Charcoal */
+  background-color: #fcfcfd;   /* Light Greyish White */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
 
-  --color-gray-100: #f4f3f1;
-  --color-gray-200: #dddbd8;
-  --color-gray-300: #ccc9c6;
-  --color-gray-400: #aeaba7;
-  --color-gray-500: #8a8784;
-  --color-gray-600: #656360;
-  --color-gray-700: #4b4a47;
-  --color-gray-800: #31302e;
-  --color-gray-900: #1f1d1b;
+  /* UI Palette */
+  --bg-main: #fcfcfd;
+  --bg-card: #ffffff;
+  
+  --color-primary: #7f56d9;       /* Purple */
+  --color-primary-dark: #6941c6;  /* Deep Purple */
+  --color-primary-light: #f9f5ff; /* Soft Purple Badge Bg */
+  --color-border: #f2f4f7;        /* Soft Border */
+  
+  --text-primary: #101828;        /* Bold Charcoal */
+  --text-secondary: #475467;      /* Muted Grey */
+  --text-muted: #667085;          /* Lighter Grey */
+  
+  /* Border Radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
 
-  --color-primary-100: #fcf3e1;
-  --color-primary-200: #fceccd;
-  --color-primary-300: #fae1af;
-  --color-primary-400: #fbd997;
-  --color-primary-500: #ffd37c;
-  --color-primary-600: #f9c762;
-  --color-primary-700: #fbc14d;
-  --color-primary-800: #fab833;
-  --color-primary-900: #f6ad1b;
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(16, 24, 40, 0.05);
+  --shadow-md: 0 4px 8px -2px rgba(16, 24, 40, 0.1), 0 2px 4px -2px rgba(16, 24, 40, 0.06);
+  --shadow-lg: 0 12px 16px -4px rgba(16, 24, 40, 0.08), 0 4px 6px -2px rgba(16, 24, 40, 0.03);
 }
 
 body {
-  margin: 0;
+  min-height: 100vh;
+  background-color: var(--bg-main);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
 }
 
 ul {
   list-style: none;
-  margin: 0;
-  padding: 0;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+}
+
+main {
+  padding: 3rem 2rem;
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding: 2rem 1.25rem;
+  }
 }

@@ -1,22 +1,76 @@
 .header {
-  max-width: 60rem;
-  margin: auto;
-  padding: 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 1.25rem 2rem;
+  background: #ffffff;
+  border-bottom: 1px solid var(--color-border);
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  gap: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
 }
 
 .list {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
+  align-items: center;
 }
 
 .list a {
+  position: relative;
   text-decoration: none;
-  color: var(--color-primary-400);
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 0;
+  transition: color 0.2s ease;
 }
 
-.list a:hover,
+.list a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.list a:hover {
+  color: var(--color-primary);
+}
+
+.list a:hover::after {
+  width: 100%;
+}
+
 .list a.active {
-  color: var(--color-primary-800);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.list a.active::after {
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+  }
+
+  .list {
+    width: 100%;
+    justify-content: center;
+    gap: 1.5rem;
+  }
 }

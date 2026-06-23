@@ -1,0 +1,126 @@
+.form {
+  max-width: 40rem;
+  margin: 3rem auto;
+  padding: 3rem;
+  background: var(--bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-primary-dark);
+  margin-bottom: 0.5rem;
+}
+
+.form input,
+.form textarea {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.form input:focus,
+.form textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(127, 86, 217, 0.15);
+}
+
+.form textarea {
+  resize: vertical;
+  min-height: 10rem;
+}
+
+/* Error validation styling */
+.form ul {
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-danger);
+  font-size: 0.9rem;
+  list-style-type: disc;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.actions button {
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-sm);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+/* Save button */
+.actions button:not([type='button']) {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.actions button:not([type='button']):hover:not(:disabled) {
+  background: var(--color-primary-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+.actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Cancel button */
+.actions button[type='button'] {
+  background: #ffffff;
+  color: var(--text-secondary);
+  border: 1px solid #d0d5dd;
+}
+
+.actions button[type='button']:hover:not(:disabled) {
+  background: #f9fafb;
+  color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+  .form {
+    padding: 2rem 1.5rem;
+    margin: 1rem auto;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+}

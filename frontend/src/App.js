@@ -1,18 +1,17 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import EditEventPage from './pages/EditEvent';
+import EditBlogPage from './pages/EditBlog';
 import ErrorPage from './pages/Error';
-import EventDetailPage, {
-  loader as eventDetailLoader,
-  action as deleteEventAction,
-} from './pages/EventDetail';
-import EventsPage, { loader as eventsLoader } from './pages/Events';
-import EventsRootLayout from './pages/EventsRoot';
+import BlogDetailPage, {
+  loader as blogDetailLoader,
+  action as deleteBlogAction,
+} from './pages/BlogDetail';
+import BlogsPage, { loader as blogsLoader } from './pages/Blogs';
+import BlogsRootLayout from './pages/BlogsRoot';
 import HomePage from './pages/Home';
-import NewEventPage from './pages/NewEvent';
+import NewBlogPage from './pages/NewBlog';
 import RootLayout from './pages/Root';
-import { action as manipulateEventAction } from './components/EventForm';
-import NewsletterPage, { action as newsletterAction } from './pages/Newsletter';
+import { action as manipulateBlogAction } from './components/BlogForm';
 
 const router = createBrowserRouter([
   {
@@ -22,42 +21,37 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       {
-        path: 'events',
-        element: <EventsRootLayout />,
+        path: 'blogs',
+        element: <BlogsRootLayout />,
         children: [
           {
             index: true,
-            element: <EventsPage />,
-            loader: eventsLoader,
+            element: <BlogsPage />,
+            loader: blogsLoader,
           },
           {
-            path: ':eventId',
-            id: 'event-detail',
-            loader: eventDetailLoader,
+            path: ':blogId',
+            id: 'blog-detail',
+            loader: blogDetailLoader,
             children: [
               {
                 index: true,
-                element: <EventDetailPage />,
-                action: deleteEventAction,
+                element: <BlogDetailPage />,
+                action: deleteBlogAction,
               },
               {
                 path: 'edit',
-                element: <EditEventPage />,
-                action: manipulateEventAction,
+                element: <EditBlogPage />,
+                action: manipulateBlogAction,
               },
             ],
           },
           {
             path: 'new',
-            element: <NewEventPage />,
-            action: manipulateEventAction,
+            element: <NewBlogPage />,
+            action: manipulateBlogAction,
           },
         ],
-      },
-      {
-        path: 'newsletter',
-        element: <NewsletterPage />,
-        action: newsletterAction,
       },
     ],
   },

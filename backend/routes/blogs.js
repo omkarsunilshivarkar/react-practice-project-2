@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { getAll, get, add, replace, remove } = require("../data/event");
+const { getAll, get, add, replace, remove } = require("../data/blog");
 const {
   isValidText,
   isValidDate,
@@ -9,12 +9,20 @@ const {
 
 const router = express.Router();
 
+// Helper to check positive numeric string for read time
+function isValidReadTime(value) {
+  if (!value) return false;
+  const num = Number(value);
+  return !isNaN(num) && num > 0;
+}
+
 router.get("/", async (req, res, next) => {
   try {
-    const events = await getAll();
-    setTimeout(()=>{
-    res.json({ events: events });
-    },2000)
+    const blogs = await getAll();
+    // Simulate slight network delay
+    setTimeout(() => {
+      res.json({ blogs: blogs });
+    }, 1500);
   } catch (error) {
     next(error);
   }
@@ -22,8 +30,8 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:id", async (req, res, next) => {
   try {
-    const event = await get(req.params.id);
-    res.json({ event: event });
+    const blog = await get(req.params.id);
+    res.json({ blog: blog });
   } catch (error) {
     next(error);
   }
@@ -39,7 +47,7 @@ router.post("/", async (req, res, next) => {
   }
 
   if (!isValidText(data.description)) {
-    errors.description = "Invalid description.";
+    errors.description = "Invalid content.";
   }
 
   if (!isValidDate(data.date)) {
@@ -50,18 +58,28 @@ router.post("/", async (req, res, next) => {
     errors.image = "Invalid image.";
   }
 
+  if (!isValidText(data.author)) {
+    errors.author = "Invalid author name.";
+  }
+
+  if (!isValidReadTime(data.readTime)) {
+    errors.readTime = "Invalid read time. Must be a positive number.";
+  }
+
+  if (!isValidText(data.category)) {
+    errors.category = "Invalid category.";
+  }
+
   if (Object.keys(errors).length > 0) {
     return res.status(422).json({
-      message: "Adding the event failed due to validation errors.",
+      message: "Adding the blog failed due to validation errors.",
       errors,
     });
   }
 
   try {
     await add(data);
-    // setTimeout(() => {
-      res.status(201).json({ message: "Event saved.", event: data });
-    // }, 1500);
+    res.status(201).json({ message: "Blog saved.", blog: data });
   } catch (error) {
     next(error);
   }
@@ -77,7 +95,7 @@ router.patch("/:id", async (req, res, next) => {
   }
 
   if (!isValidText(data.description)) {
-    errors.description = "Invalid description.";
+    errors.description = "Invalid content.";
   }
 
   if (!isValidDate(data.date)) {
@@ -88,16 +106,28 @@ router.patch("/:id", async (req, res, next) => {
     errors.image = "Invalid image.";
   }
 
+  if (!isValidText(data.author)) {
+    errors.author = "Invalid author name.";
+  }
+
+  if (!isValidReadTime(data.readTime)) {
+    errors.readTime = "Invalid read time. Must be a positive number.";
+  }
+
+  if (!isValidText(data.category)) {
+    errors.category = "Invalid category.";
+  }
+
   if (Object.keys(errors).length > 0) {
     return res.status(422).json({
-      message: "Updating the event failed due to validation errors.",
+      message: "Updating the blog failed due to validation errors.",
       errors,
     });
   }
 
   try {
     await replace(req.params.id, data);
-    res.json({ message: "Event updated.", event: data });
+    res.json({ message: "Blog updated.", blog: data });
   } catch (error) {
     next(error);
   }
@@ -106,7 +136,7 @@ router.patch("/:id", async (req, res, next) => {
 router.delete("/:id", async (req, res, next) => {
   try {
     await remove(req.params.id);
-    res.json({ message: "Event deleted." });
+    res.json({ message: "Blog deleted." });
   } catch (error) {
     next(error);
   }
