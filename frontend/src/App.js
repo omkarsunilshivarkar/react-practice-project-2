@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, Navigate } from 'react-router-dom';
 
 import EditBlogPage from './pages/EditBlog';
 import ErrorPage from './pages/Error';
@@ -8,7 +8,6 @@ import BlogDetailPage, {
 } from './pages/BlogDetail';
 import BlogsPage, { loader as blogsLoader } from './pages/Blogs';
 import BlogsRootLayout from './pages/BlogsRoot';
-import HomePage from './pages/Home';
 import NewBlogPage from './pages/NewBlog';
 import RootLayout from './pages/Root';
 import { action as manipulateBlogAction } from './components/BlogForm';
@@ -19,7 +18,7 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <HomePage /> },
+      { index: true, element: <Navigate to="/blogs" replace /> },
       {
         path: 'blogs',
         element: <BlogsRootLayout />,

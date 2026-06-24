@@ -1,5 +1,5 @@
 import { Suspense, useState } from "react";
-import { useLoaderData, json, defer, Await } from "react-router-dom";
+import { useLoaderData, json, defer, Await, useSearchParams } from "react-router-dom";
 
 import BlogsList from "../components/BlogsList";
 import classes from "./Blogs.module.css";
@@ -7,6 +7,8 @@ import classes from "./Blogs.module.css";
 function BlogsPage() {
   const { blogs } = useLoaderData();
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchParams] = useSearchParams();
+  const categoryFilter = searchParams.get("category");
 
   function handleSearchChange(event) {
     setSearchQuery(event.target.value);
@@ -15,33 +17,37 @@ function BlogsPage() {
   return (
     <>
       <div className={classes.hero}>
-        <span className={classes.badge}>Our blog</span>
-        <h1 className={classes.title}>Resources and insights</h1>
-        <p className={classes.subtitle}>
-          The latest industry news, interviews, technologies, and resources.
-        </p>
-        <div className={classes.searchContainer}>
-          <svg
-            className={classes.searchIcon}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z"
+        <div className={classes.heroLeft}>
+          <span className={classes.badge}>{categoryFilter ? categoryFilter : "Our blog"}</span>
+          <h1 className={classes.title}>Engineering the Future</h1>
+          <p className={classes.subtitle}>
+            Deep dives into software architecture, artificial intelligence, and developer culture.
+          </p>
+        </div>
+        <div className={classes.heroRight}>
+          <div className={classes.searchContainer}>
+            <svg
+              className={classes.searchIcon}
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z"
+              />
+            </svg>
+            <input
+              className={classes.searchInput}
+              type="text"
+              placeholder="Search articles..."
+              value={searchQuery}
+              onChange={handleSearchChange}
             />
-          </svg>
-          <input
-            className={classes.searchInput}
-            type="text"
-            placeholder="Search"
-            value={searchQuery}
-            onChange={handleSearchChange}
-          />
+          </div>
         </div>
       </div>
 
@@ -49,6 +55,9 @@ function BlogsPage() {
         <Await resolve={blogs}>
           {(loadedBlogs) => {
             const filteredBlogs = loadedBlogs.filter((blog) => {
+              if (categoryFilter && blog.category?.toLowerCase() !== categoryFilter.toLowerCase()) {
+                return false;
+              }
               const query = searchQuery.toLowerCase().trim();
               if (!query) return true;
               return (
@@ -58,6 +67,19 @@ function BlogsPage() {
                 blog.author.toLowerCase().includes(query)
               );
             });
+
+            if (filteredBlogs.length === 0) {
+              return (
+                <div className={classes.noBlogs}>
+                  <h3 className={classes.noBlogsTitle}>No blogs found</h3>
+                  <p className={classes.noBlogsSubtitle}>
+                    {categoryFilter 
+                      ? `We couldn't find any blog posts under the "${categoryFilter}" category.`
+                      : "We couldn't find any blog posts matching your search."}
+                  </p>
+                </div>
+              );
+            }
 
             return <BlogsList blogs={filteredBlogs} />;
           }}
@@ -69,8 +91,10 @@ function BlogsPage() {
 
 export default BlogsPage;
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8080";
+
 async function loadBlogs() {
-  const response = await fetch("http://localhost:8080/blogs");
+  const response = await fetch(`${BACKEND_URL}/blogs`);
 
   if (!response.ok) {
     throw json({ message: "Could not fetch blogs." }, { status: 500 });

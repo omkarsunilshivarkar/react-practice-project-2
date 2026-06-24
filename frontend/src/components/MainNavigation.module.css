@@ -6,13 +6,44 @@
   max-width: 100%;
   margin: 0;
   padding: 1.25rem 2rem;
-  background: #ffffff;
+  background: var(--bg-main);
   border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mainRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+.logo {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.logo a {
+  text-decoration: none;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.logo span {
+  color: var(--color-primary);
+}
+
+.desktopNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
 }
 
 .list {
@@ -21,7 +52,7 @@
   align-items: center;
 }
 
-.list a {
+.navLink {
   position: relative;
   text-decoration: none;
   color: var(--text-secondary);
@@ -31,7 +62,7 @@
   transition: color 0.2s ease;
 }
 
-.list a::after {
+.navLink::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -43,34 +74,147 @@
   transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.list a:hover {
+.navLink:hover {
   color: var(--color-primary);
 }
 
-.list a:hover::after {
+.navLink:hover::after {
   width: 100%;
 }
 
-.list a.active {
+.navLink.active {
   color: var(--color-primary);
   font-weight: 600;
 }
 
-.list a.active::after {
+.navLink.active::after {
   width: 100%;
 }
 
+.rightActions {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* CTA (New Blog) Button Styling */
+a.cta {
+  background: var(--color-primary);
+  color: #000000;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.9rem;
+  border-radius: var(--radius-full);
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+}
+
+a.cta:hover {
+  background: var(--color-primary-dark);
+  color: #000000;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+}
+
+a.cta:active {
+  transform: translateY(0);
+}
+
+a.cta::after {
+  display: none; /* Disable underline indicator for CTA button */
+}
+
+.mobileNav {
+  display: none;
+}
+
+/* Focus States Cleanup */
+.header a:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.header a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .header {
-    flex-direction: column;
-    padding: 1rem 1.5rem;
-    gap: 1rem;
+    padding: 0.85rem 1rem;
+    gap: 0.75rem;
   }
 
-  .list {
+  .desktopNav {
+    display: none;
+  }
+
+  .desktopOnly {
+    display: none !important;
+  }
+
+  .logo {
+    flex: none;
+  }
+
+  .rightActions {
+    flex: none;
+  }
+
+  .rightActions a.cta {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.8rem;
+  }
+
+  /* Scrollable Category Bar */
+  .mobileNav {
+    display: block;
     width: 100%;
-    justify-content: center;
-    gap: 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  .mobileNav::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome/Safari/Opera */
+  }
+
+  .mobileList {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.2rem 0;
+    margin: 0;
+    list-style: none;
+    width: max-content; /* Ensure container expands to hold children horizontally */
+  }
+
+  .mobileLink {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: var(--color-primary-light);
+    color: var(--text-secondary);
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .mobileLink:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .mobileLink.active {
+    background: var(--color-primary);
+    color: #000000;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
   }
 }
